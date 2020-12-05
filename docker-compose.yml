@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  tcc-app:
+    container_name: tcc-app
+    build: 
+      context: ../tcc-app
+      dockerfile: Dockerfile
+    image: tcc-app
+    expose:
+      - 5000
+    ports:
+      - 80:5000
+    networks:
+      - tcc-network
+    links:
+      - tcc-recipe-service:tcc-recipe-service
+  tcc-recipe-service:
+    container_name: tcc-recipe-service
+    build: 
+      context: ../tcc-recipe-service
+      dockerfile: Dockerfile
+    image: tcc-recipe-service
+    expose:
+      - 8080
+    ports:
+      - 8082:8080
+    networks: 
+      - tcc-network
+networks: 
+  tcc-network:
+    driver: bridge
